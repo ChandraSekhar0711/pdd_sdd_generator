@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+import os
 from routes.generate import router as generate_router
 from routes.upload import router as upload_router
 
@@ -10,10 +10,10 @@ app = FastAPI(
     description="AI-powered solution design document generator",
     version="1.0.0",
 )
-
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")  # Replace with your frontend URL
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[FRONTEND_URL],  # Allow requests from the frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
