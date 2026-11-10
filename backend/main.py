@@ -10,10 +10,17 @@ app = FastAPI(
     description="AI-powered solution design document generator",
     version="1.0.0",
 )
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")  # Replace with your frontend URL
+FRONTEND_URL = os.getenv(
+    "FRONTEND_URL",
+    "http://localhost:5173"
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL],  # Allow requests from the frontend URL
+    allow_origins=[
+        FRONTEND_URL,
+        "https://pdd-sdd.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
