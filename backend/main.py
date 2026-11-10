@@ -1,0 +1,39 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from routes.generate import router as generate_router
+from routes.upload import router as upload_router
+
+
+app = FastAPI(
+    title="PDD to SDD Generator",
+    description="AI-powered solution design document generator",
+    version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/")
+def home():
+    return {"message": "PDD to SDD Generator Backend is running."}
+
+
+@app.get("/health")
+def health_check():
+    from services.ollama_service import check_connection
+
+    return {
+        "backend": "running",
+        "ollama": "connected" if check_connection() else "disconnected",
+    }
+
+
+app.include_router(upload_router, prefix="/api", tags=["PDD Upload"])
+app.include_router(generate_router, prefix="/api", tags=["SDD Generation"])
