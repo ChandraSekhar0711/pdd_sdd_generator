@@ -12,6 +12,7 @@ OLLAMA_BASE_URL = os.getenv(
     "OLLAMA_BASE_URL",
     "http://localhost:11434"
 )
+FRONTEND_URL = os.getenv("FRONTEND_URL","http://localhost:5173")
 
 client = ollama.Client(host=OLLAMA_BASE_URL)
 
